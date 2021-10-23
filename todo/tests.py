@@ -69,9 +69,10 @@ class TestListTodoView(TestCase):
 
         response = Client().get(self.url)
 
-        todos = response.context.get('todos', [])
+        empty_queryset = Todo.objects.none()
+        todos = response.context.get('todos', empty_queryset)
 
-        self.assertEqual(len(todos), 3)
+        self.assertEqual(todos.count(), 3)
 
     def test_todos_ordered_by_date(self):
         """ Test that most recently created todos are listed first."""
